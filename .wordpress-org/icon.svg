@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+	<title>CX SMS for WooCommerce</title>
+	<defs>
+		<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+			<stop offset="0" stop-color="#1A8A89"/>
+			<stop offset="1" stop-color="#0B4A4C"/>
+		</linearGradient>
+	</defs>
+
+	<!-- Teal tile -->
+	<rect width="256" height="256" rx="56" fill="url(#bg)"/>
+
+	<!-- SMS bubble -->
+	<path fill="#FFFFFF" d="M80 56H176A32 32 0 0 1 208 88V138A32 32 0 0 1 176 170H114L72 204L82 170H80A32 32 0 0 1 48 138V88A32 32 0 0 1 80 56Z"/>
+	<circle cx="92" cy="113" r="12" fill="#116264"/>
+	<circle cx="128" cy="113" r="12" fill="#116264"/>
+	<circle cx="164" cy="113" r="12" fill="#116264"/>
+
+	<!-- Store order badge: a shopping cart -->
+	<circle cx="192" cy="190" r="40" fill="#CFE3DA" stroke="#0E5658" stroke-width="8"/>
+	<path d="M166 172H175L183 199H207" fill="none" stroke="#116264" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+	<path d="M178 179H217L210 195H183Z" fill="#116264" stroke="#116264" stroke-width="3" stroke-linejoin="round"/>
+	<circle cx="187" cy="209" r="5" fill="#116264"/>
+	<circle cx="204" cy="209" r="5" fill="#116264"/>
+</svg>
