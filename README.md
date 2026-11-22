@@ -9,8 +9,11 @@ Requires WordPress 6.2+, PHP 7.4+ and WooCommerce 7.1+. Compatible with High-Per
 ## Features
 
 - **CloudXino account** (SMS › Settings): switch SMS on or off, API key and secret (saved
-  encrypted with the site's salts), optional sender ID. *Check balance* and *Send test SMS*
-  save the settings first.
+  encrypted with the site's salts), optional sender ID. *Send test SMS* saves the settings first.
+- **SMS balance** at the top of the settings page once a key and secret are saved: read in the
+  background, kept for 5 minutes, with a *Refresh* button and the reason when it can't connect.
+  Without a key, the top shows a *Register at CloudXino* button
+  (https://cloudxino.com/register?ref=R2SD92GZ, with the author's referral code).
 - **One message per order event**: *Order placed* plus every WooCommerce order status, custom
   ones too (e.g. "Shipped" from another plugin). Each can be switched on and reworded.
   On by default: Processing, Shipped, Completed.

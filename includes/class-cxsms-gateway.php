@@ -81,6 +81,38 @@ class CXSMS_Gateway {
 		return trim( ( isset( $json['balance'] ) ? $json['balance'] : '?' ) . ' ' . ( isset( $json['currency'] ) ? $json['currency'] : '' ) );
 	}
 
+	/** How long the balance shown on the settings page is kept, in seconds. */
+	const BALANCE_CACHE = 300;
+
+	/**
+	 * The balance for the settings page: read again at most every five minutes, or now when
+	 * asked. A failure isn't kept, so the next look tries again.
+	 *
+	 * @param bool $refresh Read it from CloudXino now.
+	 * @return array{balance: string, checked_at: int}
+	 * @throws RuntimeException When it can't be read.
+	 */
+	public function cached_balance( $refresh = false ) {
+		$cached = $refresh ? false : get_transient( 'cxsms_balance' );
+
+		if ( is_array( $cached ) && isset( $cached['balance'], $cached['checked_at'] ) ) {
+			return $cached;
+		}
+
+		$fresh = array(
+			'balance'    => $this->balance(),
+			'checked_at' => time(),
+		);
+		set_transient( 'cxsms_balance', $fresh, self::BALANCE_CACHE );
+
+		return $fresh;
+	}
+
+	/** Forget the kept balance, e.g. when the API key changes. */
+	public static function forget_balance() {
+		delete_transient( 'cxsms_balance' );
+	}
+
 	/**
 	 * An exception's message as plain text. Messages are HTML-escaped when thrown, so they
 	 * are decoded here and escaped again wherever they're shown.

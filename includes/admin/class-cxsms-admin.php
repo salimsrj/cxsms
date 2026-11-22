@@ -24,6 +24,7 @@ class CXSMS_Admin {
 		add_action( 'admin_post_cxsms_settings', array( 'CXSMS_Settings_Page', 'handle' ) );
 		add_action( 'admin_post_cxsms_campaign', array( 'CXSMS_Campaigns_Page', 'handle' ) );
 		add_action( 'admin_post_cxsms_order_sms', array( 'CXSMS_Order_Box', 'handle_send' ) );
+		add_action( 'wp_ajax_cxsms_balance', array( 'CXSMS_Settings_Page', 'ajax_balance' ) );
 	}
 
 	/** SMS › Settings, SMS log, Campaigns. */
