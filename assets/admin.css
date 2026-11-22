@@ -1,0 +1,34 @@
+.cxsms .cxsms-messages th { width: 220px; }
+.cxsms .cxsms-messages th label { font-weight: 600; }
+.cxsms .cxsms-messages textarea[readonly] { background: #f6f7f7; color: #787c82; }
+.cxsms .cxsms-inline { display: inline-block; margin: 0 16px 6px 0; }
+.cxsms .search-box { margin-top: 0; }
+.cxsms-counter { margin-top: 4px; }
+.cxsms-error { color: #b32d2e; }
+
+.cxsms-badge {
+	display: inline-block;
+	padding: 2px 8px;
+	border-radius: 10px;
+	font-size: 12px;
+	line-height: 1.6;
+	background: #f0f0f1;
+	color: #50575e;
+}
+.cxsms-badge-sent { background: #edfaef; color: #00691c; }
+.cxsms-badge-failed,
+.cxsms-badge-stopped { background: #fcf0f1; color: #8a2424; }
+.cxsms-badge-sending { background: #f0f6fc; color: #0a4b78; }
+
+.cxsms-progress {
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	border-left: 4px solid #2271b1;
+	padding: 4px 12px;
+	margin: 12px 0;
+}
+
+.cxsms-order-box table { margin-bottom: 12px; }
+.cxsms-order-box td:first-child { width: 170px; }
+.cxsms-order-box td:last-child { width: 70px; }
+.cxsms-status-choice .description { display: block; margin-top: 4px; }
