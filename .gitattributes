@@ -1,3 +1,5 @@
 # Left out of the plugin zip (git archive): WordPress.org does not allow hidden files.
 .gitattributes export-ignore
 .gitignore export-ignore
+# WordPress.org page images: uploaded to the SVN assets folder, not shipped in the plugin.
+/.wordpress-org export-ignore

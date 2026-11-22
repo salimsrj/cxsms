@@ -62,3 +62,22 @@ git archive --format=zip --prefix=cx-sms-for-woocommerce/ -o ../cx-sms-for-wooco
 ```
 
 Commit first: the zip is built from the last commit, not from unsaved changes.
+
+## WordPress.org icon and banner
+
+`.wordpress-org/` holds the plugin page images. They are not part of the plugin zip:
+WordPress.org reads them from the `assets` folder of the plugin's SVN repository, which
+you get once the plugin is approved.
+
+| File | Shown |
+|---|---|
+| `icon.svg`, `icon-128x128.png`, `icon-256x256.png` | Plugin icon in search results and lists |
+| `banner-772x250.png`, `banner-1544x500.png` | Banner at the top of the plugin page |
+
+The sources are `icon.svg` and `source/banner.svg`. After approval, copy them to SVN:
+
+```bash
+svn checkout https://plugins.svn.wordpress.org/cx-sms-for-woocommerce cx-sms-svn
+cp .wordpress-org/icon.svg .wordpress-org/*.png cx-sms-svn/assets/
+cd cx-sms-svn && svn add --force assets && svn commit -m "Plugin icon and banner"
+```

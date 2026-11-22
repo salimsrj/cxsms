@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1544" height="500" viewBox="0 0 1544 500">
+	<!-- Source for banner-1544x500.png and banner-772x250.png. WordPress.org puts the plugin
+	     name over the bottom-left corner of the banner, so that area is kept plain. -->
+	<defs>
+		<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+			<stop offset="0" stop-color="#1A8A89"/>
+			<stop offset="1" stop-color="#0B4A4C"/>
+		</linearGradient>
+	</defs>
+
+	<rect width="1544" height="500" fill="url(#bg)"/>
+
+	<!-- Faint bubbles in the background -->
+	<g fill="#FFFFFF" opacity="0.06">
+		<path d="M1250 40H1470A50 50 0 0 1 1520 90V210A50 50 0 0 1 1470 260H1330L1260 320L1278 260H1250A50 50 0 0 1 1200 210V90A50 50 0 0 1 1250 40Z"/>
+		<path d="M1120 300H1260A40 40 0 0 1 1300 340V420A40 40 0 0 1 1260 460H1160L1110 500L1124 460H1120A40 40 0 0 1 1080 420V340A40 40 0 0 1 1120 300Z"/>
+	</g>
+
+	<!-- The icon -->
+	<g transform="translate(100 62)">
+		<rect width="256" height="256" rx="56" fill="#0E5658" opacity="0.35" transform="translate(0 8)"/>
+		<rect width="256" height="256" rx="56" fill="#13716F"/>
+		<path fill="#FFFFFF" d="M80 56H176A32 32 0 0 1 208 88V138A32 32 0 0 1 176 170H114L72 204L82 170H80A32 32 0 0 1 48 138V88A32 32 0 0 1 80 56Z"/>
+		<circle cx="92" cy="113" r="12" fill="#116264"/>
+		<circle cx="128" cy="113" r="12" fill="#116264"/>
+		<circle cx="164" cy="113" r="12" fill="#116264"/>
+		<circle cx="192" cy="190" r="40" fill="#CFE3DA" stroke="#13716F" stroke-width="8"/>
+		<path d="M166 172H175L183 199H207" fill="none" stroke="#116264" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+		<path d="M178 179H217L210 195H183Z" fill="#116264" stroke="#116264" stroke-width="3" stroke-linejoin="round"/>
+		<circle cx="187" cy="209" r="5" fill="#116264"/>
+		<circle cx="204" cy="209" r="5" fill="#116264"/>
+	</g>
+
+	<!-- Name and what it does -->
+	<g font-family="-apple-system, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif">
+		<text x="410" y="178" font-size="80" font-weight="700" fill="#FFFFFF">CX SMS for WooCommerce</text>
+		<text x="412" y="246" font-size="38" fill="#CFE3DA">Order SMS, campaigns and an SMS log, through CloudXino</text>
+		<g font-size="28" font-weight="600" fill="#0B4A4C">
+			<rect x="412" y="282" width="210" height="50" rx="25" fill="#CFE3DA"/>
+			<text x="517" y="317" text-anchor="middle">Order updates</text>
+			<rect x="638" y="282" width="190" height="50" rx="25" fill="#CFE3DA"/>
+			<text x="733" y="317" text-anchor="middle">Campaigns</text>
+			<rect x="844" y="282" width="190" height="50" rx="25" fill="#CFE3DA"/>
+			<text x="939" y="317" text-anchor="middle">Bangla SMS</text>
+		</g>
+	</g>
+</svg>
