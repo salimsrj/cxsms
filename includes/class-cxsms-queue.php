@@ -99,7 +99,7 @@ class CXSMS_Queue {
 		} catch ( RuntimeException $e ) {
 			if ( function_exists( 'wc_get_logger' ) ) {
 				wc_get_logger()->warning(
-					sprintf( 'SMS for order %s (%s) failed, try %d of %d: %s', $order->get_order_number(), $event, $attempt, self::TRIES, $e->getMessage() ),
+					sprintf( 'SMS for order %s (%s) failed, try %d of %d: %s', $order->get_order_number(), $event, $attempt, self::TRIES, CXSMS_Gateway::message( $e ) ),
 					array( 'source' => 'cxsms' )
 				);
 			}

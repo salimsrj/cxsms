@@ -62,7 +62,7 @@ class CXSMS_Messages {
 	public static function find( $id ) {
 		global $wpdb;
 
-		return $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM ' . self::table() . ' WHERE id = %d', $id ) ); // phpcs:ignore WordPress.DB
+		return $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %i WHERE id = %d', self::table(), $id ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 	}
 
 	/**
@@ -74,7 +74,7 @@ class CXSMS_Messages {
 	public static function for_order( $order_id ) {
 		global $wpdb;
 
-		return $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . self::table() . ' WHERE order_id = %d ORDER BY id DESC', $order_id ) ); // phpcs:ignore WordPress.DB
+		return $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i WHERE order_id = %d ORDER BY id DESC', self::table(), $order_id ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 	}
 
 	/**
@@ -87,8 +87,8 @@ class CXSMS_Messages {
 	public static function was_sent( $order_id, $event ) {
 		global $wpdb;
 
-		return (bool) $wpdb->get_var( // phpcs:ignore WordPress.DB
-			$wpdb->prepare( 'SELECT 1 FROM ' . self::table() . ' WHERE order_id = %d AND event = %s AND status = %s LIMIT 1', $order_id, $event, self::SENT ) // phpcs:ignore WordPress.DB
+		return (bool) $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			$wpdb->prepare( 'SELECT 1 FROM %i WHERE order_id = %d AND event = %s AND status = %s LIMIT 1', self::table(), $order_id, $event, self::SENT )
 		);
 	}
 
@@ -101,34 +101,45 @@ class CXSMS_Messages {
 	public static function search( array $args ) {
 		global $wpdb;
 
-		$where  = array( '1=1' );
-		$params = array();
-
-		if ( ! empty( $args['status'] ) ) {
-			$where[]  = 'status = %s';
-			$params[] = $args['status'];
-		}
-		if ( ! empty( $args['event'] ) ) {
-			$where[]  = 'event = %s';
-			$params[] = $args['event'];
-		}
-		if ( ! empty( $args['search'] ) ) {
-			$like     = '%' . $wpdb->esc_like( $args['search'] ) . '%';
-			$where[]  = '(recipient LIKE %s OR message LIKE %s OR order_id = %d)';
-			$params[] = $like;
-			$params[] = $like;
-			$params[] = (int) $args['search'];
-		}
-
+		$status   = isset( $args['status'] ) ? (string) $args['status'] : '';
+		$event    = isset( $args['event'] ) ? (string) $args['event'] : '';
+		$search   = isset( $args['search'] ) ? (string) $args['search'] : '';
+		$like     = '%' . $wpdb->esc_like( $search ) . '%';
 		$per_page = max( 1, (int) ( isset( $args['per_page'] ) ? $args['per_page'] : 20 ) );
 		$page     = max( 1, (int) ( isset( $args['page'] ) ? $args['page'] : 1 ) );
-		$sql      = ' FROM ' . self::table() . ' WHERE ' . implode( ' AND ', $where );
 
-		$total = (int) $wpdb->get_var( $params ? $wpdb->prepare( 'SELECT COUNT(*)' . $sql, $params ) : 'SELECT COUNT(*)' . $sql ); // phpcs:ignore WordPress.DB
+		// An empty filter matches every row.
+		$total = (int) $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			$wpdb->prepare(
+				"SELECT COUNT(*) FROM %i WHERE (%s = '' OR status = %s) AND (%s = '' OR event = %s) AND (%s = '' OR recipient LIKE %s OR message LIKE %s OR order_id = %d)",
+				self::table(),
+				$status,
+				$status,
+				$event,
+				$event,
+				$search,
+				$like,
+				$like,
+				(int) $search
+			)
+		);
 
-		$params[] = $per_page;
-		$params[] = ( $page - 1 ) * $per_page;
-		$items    = $wpdb->get_results( $wpdb->prepare( 'SELECT *' . $sql . ' ORDER BY id DESC LIMIT %d OFFSET %d', $params ) ); // phpcs:ignore WordPress.DB
+		$items = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			$wpdb->prepare(
+				"SELECT * FROM %i WHERE (%s = '' OR status = %s) AND (%s = '' OR event = %s) AND (%s = '' OR recipient LIKE %s OR message LIKE %s OR order_id = %d) ORDER BY id DESC LIMIT %d OFFSET %d",
+				self::table(),
+				$status,
+				$status,
+				$event,
+				$event,
+				$search,
+				$like,
+				$like,
+				(int) $search,
+				$per_page,
+				( $page - 1 ) * $per_page
+			)
+		);
 
 		return array(
 			'items' => $items,

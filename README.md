@@ -51,3 +51,14 @@ Make sure WP-Cron runs (or a real cron job calls `wp-cron.php`), since SMS go ou
 - `cxsms_sent( int $message_id, ?WC_Order, string $event )` — after an SMS is sent.
 
 The API URL can be changed with the `cxsms_base_url` option (default `https://sms.cloudxino.com/api/v1`).
+
+## Build the WordPress.org zip
+
+WordPress.org rejects hidden files such as `.gitignore`, so build the zip with `git archive`
+(it leaves out everything marked `export-ignore` in `.gitattributes`):
+
+```bash
+git archive --format=zip --prefix=cx-sms-for-woocommerce/ -o ../cx-sms-for-woocommerce.zip HEAD
+```
+
+Commit first: the zip is built from the last commit, not from unsaved changes.

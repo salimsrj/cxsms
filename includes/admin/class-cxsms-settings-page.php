@@ -203,7 +203,7 @@ class CXSMS_Settings_Page {
 			try {
 				CXSMS_Admin::flash( 'success', 'SMS balance: ' . ( new CXSMS_Gateway() )->balance() );
 			} catch ( RuntimeException $e ) {
-				CXSMS_Admin::flash( 'error', 'Couldn\'t check the balance. ' . $e->getMessage() );
+				CXSMS_Admin::flash( 'error', 'Couldn\'t check the balance. ' . CXSMS_Gateway::message( $e ) );
 			}
 		} elseif ( 'test' === $do ) {
 			self::send_test(
@@ -236,7 +236,7 @@ class CXSMS_Settings_Page {
 		try {
 			$sent = ( new CXSMS_Order_SMS() )->send( null, $phone, mb_substr( $message, 0, 1000 ), 'test', get_current_user_id() );
 		} catch ( RuntimeException $e ) {
-			CXSMS_Admin::flash( 'error', 'Test SMS failed. ' . $e->getMessage() );
+			CXSMS_Admin::flash( 'error', 'Test SMS failed. ' . CXSMS_Gateway::message( $e ) );
 			return;
 		}
 
