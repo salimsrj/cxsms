@@ -2,7 +2,7 @@
 Contributors: salimsrj
 Tags: woocommerce, sms, order notification, bangladesh, cloudxino
 Requires at least: 6.2
-Tested up to: 6.8
+Tested up to: 7.1
 Requires PHP: 7.4
 Stable tag: 1.0.0
 License: GPLv2 or later
@@ -19,6 +19,18 @@ Texts WooCommerce customers about their orders through the CloudXino SMS gateway
 * SMS campaigns to past customers, filtered by orders, products and categories.
 
 Requires WooCommerce.
+
+== External services ==
+
+This plugin connects to the CloudXino SMS API (https://sms.cloudxino.com/api/v1), provided by CloudXino, to send SMS to your customers. It needs a CloudXino account, and nothing is sent until you add your own API key and secret on the SMS › Settings page.
+
+What is sent, and when:
+
+* When an SMS goes out (an order is placed or changes status and that message is switched on, a store admin sends one from the order page or a campaign, or a test SMS is sent): the customer's mobile number and the message text. The text can include the customer's name, order number, order total, courier and tracking code, depending on how you word the message. Your API key and secret, and your sender ID if you set one, are sent with every request.
+* When you click "Check balance": only your API key and secret.
+
+CloudXino Terms of Service: https://cloudxino.com/terms
+CloudXino Privacy Policy: https://cloudxino.com/privacy
 
 == Installation ==
 
