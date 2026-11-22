@@ -385,11 +385,11 @@ class CXSMS_Order_SMS {
 		} catch ( RuntimeException $e ) {
 			if ( $record_failure ) {
 				$record['status'] = CXSMS_Messages::FAILED;
-				$record['error']  = mb_substr( $e->getMessage(), 0, 255 );
+				$record['error']  = mb_substr( CXSMS_Gateway::message( $e ), 0, 255 );
 				CXSMS_Messages::insert( $record );
 
 				if ( $order ) {
-					$order->add_order_note( sprintf( 'SMS "%s" to %s failed: %s', self::event_label( $event ), $record['recipient'], $e->getMessage() ) );
+					$order->add_order_note( sprintf( 'SMS "%s" to %s failed: %s', self::event_label( $event ), $record['recipient'], CXSMS_Gateway::message( $e ) ) );
 				}
 			}
 

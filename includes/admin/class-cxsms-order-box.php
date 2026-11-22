@@ -141,7 +141,7 @@ class CXSMS_Order_Box {
 				( new CXSMS_Order_SMS() )->send( $order, $phone, mb_substr( $message, 0, 1000 ), 'manual', get_current_user_id() );
 				CXSMS_Admin::flash( 'success', 'SMS sent to ' . $phone . '.' );
 			} catch ( RuntimeException $e ) {
-				CXSMS_Admin::flash( 'error', 'SMS not sent. ' . $e->getMessage() );
+				CXSMS_Admin::flash( 'error', 'SMS not sent. ' . CXSMS_Gateway::message( $e ) );
 			}
 		}
 

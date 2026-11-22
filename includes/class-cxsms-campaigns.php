@@ -316,7 +316,7 @@ class CXSMS_Campaigns {
 
 		$problem = self::problem( $campaign );
 		if ( $problem ) {
-			throw new RuntimeException( $problem );
+			throw new RuntimeException( esc_html( $problem ) );
 		}
 
 		self::sync_draft( $campaign );
@@ -391,7 +391,7 @@ class CXSMS_Campaigns {
 
 		$problem = self::problem( $campaign );
 		if ( $problem ) {
-			throw new RuntimeException( $problem );
+			throw new RuntimeException( esc_html( $problem ) );
 		}
 
 		if ( $retry_failed ) {
@@ -521,7 +521,7 @@ class CXSMS_Campaigns {
 					$table,
 					array(
 						'status'     => self::FAILED,
-						'error'      => mb_substr( $e->getMessage(), 0, 255 ),
+						'error'      => mb_substr( CXSMS_Gateway::message( $e ), 0, 255 ),
 						'updated_at' => current_time( 'mysql', true ),
 					),
 					array( 'id' => (int) $recipient->id )
@@ -532,7 +532,7 @@ class CXSMS_Campaigns {
 						self::table(),
 						array(
 							'status' => self::STOPPED,
-							'error'  => mb_substr( sprintf( 'Stopped after %d failures in a row: %s', $failures, $e->getMessage() ), 0, 255 ),
+							'error'  => mb_substr( sprintf( 'Stopped after %d failures in a row: %s', $failures, CXSMS_Gateway::message( $e ) ), 0, 255 ),
 						),
 						array( 'id' => (int) $id )
 					);

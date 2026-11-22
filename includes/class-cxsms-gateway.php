@@ -56,7 +56,7 @@ class CXSMS_Gateway {
 			} else {
 				$reason = $rejected;
 			}
-			throw new RuntimeException( 'The SMS was rejected: ' . $reason );
+			throw new RuntimeException( esc_html( 'The SMS was rejected: ' . $reason ) );
 		}
 
 		$cost = isset( $json['messages'][0]['cost'] ) ? $json['messages'][0]['cost'] : ( isset( $json['total_cost'] ) ? $json['total_cost'] : null );
@@ -79,6 +79,17 @@ class CXSMS_Gateway {
 		$json = $this->request( 'GET', '/balance' );
 
 		return trim( ( isset( $json['balance'] ) ? $json['balance'] : '?' ) . ' ' . ( isset( $json['currency'] ) ? $json['currency'] : '' ) );
+	}
+
+	/**
+	 * An exception's message as plain text. Messages are HTML-escaped when thrown, so they
+	 * are decoded here and escaped again wherever they're shown.
+	 *
+	 * @param Throwable $e Exception.
+	 * @return string
+	 */
+	public static function message( $e ) {
+		return wp_specialchars_decode( $e->getMessage(), ENT_QUOTES );
 	}
 
 	/**
@@ -148,7 +159,7 @@ class CXSMS_Gateway {
 			return $json;
 		}
 
-		throw new RuntimeException( self::error_message( $status, $json ) );
+		throw new RuntimeException( esc_html( self::error_message( $status, $json ) ) );
 	}
 
 	/**

@@ -466,7 +466,7 @@ class CXSMS_Campaigns_Page {
 					CXSMS_Admin::flash( 'success', 'Campaign saved.' );
 			}
 		} catch ( RuntimeException $e ) {
-			CXSMS_Admin::flash( 'error', $e->getMessage() );
+			CXSMS_Admin::flash( 'error', CXSMS_Gateway::message( $e ) );
 		}
 
 		CXSMS_Admin::redirect( $id ? self::url( $id ) : self::url( null, array( 'new' => 1 ) ) );
