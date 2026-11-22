@@ -32,3 +32,25 @@
 .cxsms-order-box td:first-child { width: 170px; }
 .cxsms-order-box td:last-child { width: 70px; }
 .cxsms-status-choice .description { display: block; margin-top: 4px; }
+
+.cxsms-card {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	flex-wrap: wrap;
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	border-left: 4px solid #116264;
+	padding: 14px 18px;
+	margin: 12px 0 8px;
+	max-width: 960px;
+}
+.cxsms-card h2 { margin: 0 0 4px; }
+.cxsms-card p { margin: 0; }
+.cxsms-card-connect { background: #f2f8f6; }
+.cxsms-balance-label { display: block; color: #50575e; }
+.cxsms-balance-value { display: block; font-size: 24px; line-height: 1.4; color: #116264; }
+.cxsms-balance-error { border-left-color: #b32d2e; }
+.cxsms-balance-error .cxsms-balance-value { color: #b32d2e; }
+.cxsms-balance-error .cxsms-balance-status { color: #b32d2e; }

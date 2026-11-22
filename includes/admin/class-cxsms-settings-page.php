@@ -8,8 +8,8 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Customer SMS: the CloudXino account, and the message sent at each order event. Also sends a
- * test SMS and checks the balance.
+ * Customer SMS: the CloudXino account with its balance, and the message sent at each order
+ * event. Also sends a test SMS.
  */
 class CXSMS_Settings_Page {
 
@@ -26,12 +26,17 @@ class CXSMS_Settings_Page {
 		<div class="wrap cxsms">
 			<h1>SMS</h1>
 
+			<?php self::render_account_card(); ?>
+
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<input type="hidden" name="action" value="cxsms_settings">
 				<?php wp_nonce_field( 'cxsms_settings' ); ?>
 
 				<h2>CloudXino account</h2>
-				<p>Texts customers about their orders through sms.cloudxino.com. Find the API key and secret in your CloudXino account › Settings.</p>
+				<p>
+					Texts customers about their orders through sms.cloudxino.com. Find the API key and secret in your CloudXino account › Settings.
+					Don't have an account? <a href="<?php echo esc_url( CXSMS_Settings::REGISTER_URL ); ?>" target="_blank" rel="noopener">Register at CloudXino</a> to get them.
+				</p>
 
 				<table class="form-table" role="presentation">
 					<tr>
@@ -134,7 +139,6 @@ class CXSMS_Settings_Page {
 
 				<p class="submit">
 					<button type="submit" name="do" value="save" class="button button-primary">Save</button>
-					<button type="submit" name="do" value="balance" class="button">Check balance</button>
 				</p>
 
 				<h2>Send a test SMS</h2>
@@ -155,7 +159,71 @@ class CXSMS_Settings_Page {
 		<?php
 	}
 
-	/** Save, then check the balance or send the test SMS when asked. */
+	/**
+	 * Top of the page: the SMS balance once a key and secret are saved, or how to get them.
+	 */
+	private static function render_account_card() {
+		if ( ! ( new CXSMS_Gateway() )->has_credentials() ) {
+			?>
+			<div class="cxsms-card cxsms-card-connect">
+				<div>
+					<h2>Connect your CloudXino account</h2>
+					<p>To send SMS you need a CloudXino API key and secret. Register at CloudXino, then copy them from your account › Settings into the fields below.</p>
+				</div>
+				<a class="button button-primary button-hero" href="<?php echo esc_url( CXSMS_Settings::REGISTER_URL ); ?>" target="_blank" rel="noopener">Register at CloudXino</a>
+			</div>
+			<?php
+			return;
+		}
+
+		$cached = get_transient( 'cxsms_balance' );
+		$cached = is_array( $cached ) && isset( $cached['balance'], $cached['checked_at'] ) ? $cached : null;
+		?>
+		<div class="cxsms-card cxsms-balance" data-url="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'cxsms_balance' ) ); ?>" data-load="<?php echo $cached ? '0' : '1'; ?>">
+			<div>
+				<span class="cxsms-balance-label">SMS balance</span>
+				<strong class="cxsms-balance-value"><?php echo esc_html( $cached ? $cached['balance'] : 'Loading…' ); ?></strong>
+				<span class="cxsms-balance-status description"><?php echo esc_html( $cached ? self::checked_ago( $cached['checked_at'] ) : 'Checking CloudXino…' ); ?></span>
+			</div>
+			<button type="button" class="button cxsms-balance-refresh">Refresh</button>
+		</div>
+		<?php
+	}
+
+	/**
+	 * "Checked 2 minutes ago."
+	 *
+	 * @param int $time When.
+	 * @return string
+	 */
+	public static function checked_ago( $time ) {
+		$seconds = time() - (int) $time;
+
+		return $seconds < 60 ? 'Checked just now.' : sprintf( 'Checked %s ago.', human_time_diff( (int) $time ) );
+	}
+
+	/** The balance for the card at the top, as JSON. */
+	public static function ajax_balance() {
+		if ( ! current_user_can( CXSMS_Admin::CAPABILITY ) ) {
+			wp_send_json_error( array( 'message' => 'Not allowed.' ), 403 );
+		}
+		check_ajax_referer( 'cxsms_balance' );
+
+		try {
+			$balance = ( new CXSMS_Gateway() )->cached_balance( ! empty( $_POST['refresh'] ) );
+		} catch ( RuntimeException $e ) {
+			wp_send_json_error( array( 'message' => 'Not connected: ' . CXSMS_Gateway::message( $e ) ) );
+		}
+
+		wp_send_json_success(
+			array(
+				'balance' => $balance['balance'],
+				'status'  => self::checked_ago( $balance['checked_at'] ),
+			)
+		);
+	}
+
+	/** Save, then send the test SMS when asked. */
 	public static function handle() {
 		if ( ! current_user_can( CXSMS_Admin::CAPABILITY ) ) {
 			wp_die( 'Not allowed.' );
@@ -178,6 +246,8 @@ class CXSMS_Settings_Page {
 		CXSMS_Settings::put( CXSMS_Settings::ENABLED, $enabled ? '1' : '0' );
 		CXSMS_Settings::put_secret( CXSMS_Settings::API_KEY, $key );
 		CXSMS_Settings::put_secret( CXSMS_Settings::API_SECRET, $secret );
+		// The key may have changed: the card at the top reads the balance again.
+		CXSMS_Gateway::forget_balance();
 
 		foreach ( array( CXSMS_Settings::SENDER_ID, 'store_name', 'store_phone', 'courier_meta', 'tracking_meta' ) as $field ) {
 			$value = isset( $post[ $field ] ) ? trim( sanitize_text_field( $post[ $field ] ) ) : '';
@@ -199,13 +269,7 @@ class CXSMS_Settings_Page {
 			CXSMS_Settings::put( CXSMS_Order_SMS::template_key( $event ), '' !== $template && CXSMS_Order_SMS::default_template( $event ) !== $template ? $template : null );
 		}
 
-		if ( 'balance' === $do ) {
-			try {
-				CXSMS_Admin::flash( 'success', 'SMS balance: ' . ( new CXSMS_Gateway() )->balance() );
-			} catch ( RuntimeException $e ) {
-				CXSMS_Admin::flash( 'error', 'Couldn\'t check the balance. ' . CXSMS_Gateway::message( $e ) );
-			}
-		} elseif ( 'test' === $do ) {
+		if ( 'test' === $do ) {
 			self::send_test(
 				isset( $post['test_phone'] ) ? sanitize_text_field( $post['test_phone'] ) : '',
 				isset( $post['test_message'] ) ? trim( sanitize_textarea_field( $post['test_message'] ) ) : ''
