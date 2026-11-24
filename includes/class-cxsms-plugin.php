@@ -37,9 +37,15 @@ class CXSMS_Plugin {
 		add_filter( 'plugin_action_links_' . plugin_basename( CXSMS_FILE ), array( __CLASS__, 'action_links' ) );
 	}
 
-	/** Shown while WooCommerce isn't active. */
+	/** Shown on the Plugins page only, to people who can activate plugins, while WooCommerce isn't active. */
 	public static function woocommerce_missing_notice() {
-		echo '<div class="notice notice-error"><p><strong>CX SMS for WooCommerce</strong> needs WooCommerce. Install and activate WooCommerce to send SMS.</p></div>';
+		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+
+		if ( ! $screen || 'plugins' !== $screen->id || ! current_user_can( 'activate_plugins' ) ) {
+			return;
+		}
+
+		echo '<div class="notice notice-error"><p><strong>CloudXino SMS for WooCommerce</strong> needs WooCommerce. Install and activate WooCommerce to send SMS.</p></div>';
 	}
 
 	/**

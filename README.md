@@ -1,4 +1,6 @@
-# CX SMS for WooCommerce
+# CloudXino SMS for WooCommerce
+
+The official CloudXino plugin for WooCommerce, by CloudXino (WordPress.org: `cloudxino`).
 
 A WordPress plugin that texts WooCommerce customers about their orders through the
 [CloudXino](https://sms.cloudxino.com) SMS gateway. It brings the SMS features of the
@@ -61,7 +63,7 @@ WordPress.org rejects hidden files such as `.gitignore`, so build the zip with `
 (it leaves out everything marked `export-ignore` in `.gitattributes`):
 
 ```bash
-git archive --format=zip --prefix=cx-sms-for-woocommerce/ -o ../cx-sms-for-woocommerce.zip HEAD
+git archive --format=zip --prefix=cloudxino-sms-for-woocommerce/ -o ../cloudxino-sms-for-woocommerce.zip HEAD
 ```
 
 Commit first: the zip is built from the last commit, not from unsaved changes.
@@ -80,7 +82,7 @@ you get once the plugin is approved.
 The sources are `icon.svg` and `source/banner.svg`. After approval, copy them to SVN:
 
 ```bash
-svn checkout https://plugins.svn.wordpress.org/cx-sms-for-woocommerce cx-sms-svn
-cp .wordpress-org/icon.svg .wordpress-org/*.png cx-sms-svn/assets/
-cd cx-sms-svn && svn add --force assets && svn commit -m "Plugin icon and banner"
+svn checkout https://plugins.svn.wordpress.org/cloudxino-sms-for-woocommerce cloudxino-sms-svn
+cp .wordpress-org/icon.svg .wordpress-org/*.png cloudxino-sms-svn/assets/
+cd cloudxino-sms-svn && svn add --force assets && svn commit -m "Plugin icon and banner"
 ```

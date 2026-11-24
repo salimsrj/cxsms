@@ -1,4 +1,4 @@
-/* CX SMS admin: character counter, message switches, reveal secrets, tick all, refresh while sending. */
+/* CloudXino SMS admin: character counter, message switches, reveal secrets, tick all, refresh while sending. */
 ( function ( $ ) {
 	'use strict';
 

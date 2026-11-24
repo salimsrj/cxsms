@@ -1,5 +1,5 @@
-=== CX SMS for WooCommerce ===
-Contributors: salimsrj
+=== CloudXino SMS for WooCommerce ===
+Contributors: cloudxino, salimsrj
 Tags: woocommerce, sms, order notification, bangladesh, cloudxino
 Requires at least: 6.2
 Tested up to: 7.1
