@@ -1,7 +1,6 @@
 <?php
 /**
  * Plugin Name:       CloudXino SMS for WooCommerce
- * Plugin URI:        https://cloudxino.com
  * Description:       Texts customers about their WooCommerce orders through the CloudXino SMS gateway (sms.cloudxino.com): one message per order status, manual and test SMS, an SMS log and SMS campaigns to past customers.
  * Version:           1.0.0
  * Requires at least: 6.2
