@@ -76,7 +76,10 @@ class CXSMS_Admin {
 		set_transient( $key, $messages, 120 );
 	}
 
-	/** Flash messages, and a warning while SMS are stuck in the queue. */
+	/**
+	 * Flash messages after the plugin's own actions, and, on the plugin's own SMS pages only,
+	 * a warning while SMS are stuck in the queue.
+	 */
 	public static function notices() {
 		$key      = 'cxsms_flash_' . get_current_user_id();
 		$messages = get_transient( $key );
@@ -90,7 +93,7 @@ class CXSMS_Admin {
 
 		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
 		$page   = $screen ? (string) $screen->id : '';
-		if ( ! current_user_can( self::CAPABILITY ) || ( false === strpos( $page, 'cxsms' ) && ! in_array( $page, array( 'edit-shop_order', 'woocommerce_page_wc-orders' ), true ) ) ) {
+		if ( ! current_user_can( self::CAPABILITY ) || false === strpos( $page, 'cxsms' ) ) {
 			return;
 		}
 

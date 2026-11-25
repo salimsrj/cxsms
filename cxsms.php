@@ -1,7 +1,6 @@
 <?php
 /**
- * Plugin Name:       CX SMS for WooCommerce
- * Plugin URI:        https://github.com/salimsrj/cxsms
+ * Plugin Name:       CloudXino SMS for WooCommerce
  * Description:       Texts customers about their WooCommerce orders through the CloudXino SMS gateway (sms.cloudxino.com): one message per order status, manual and test SMS, an SMS log and SMS campaigns to past customers.
  * Version:           1.0.0
  * Requires at least: 6.2
@@ -10,10 +9,10 @@
  * WC requires at least: 7.1
  * WC tested up to:   11.1
  * Author:            Mahmudul Hasan
- * Author URI:        https://profiles.wordpress.org/salimsrj/
+ * Author URI:        https://cloudxino.com
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       cx-sms-for-woocommerce
+ * Text Domain:       cloudxino-sms-for-woocommerce
  *
  * @package CXSMS
  */

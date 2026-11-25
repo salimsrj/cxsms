@@ -20,8 +20,8 @@ class CXSMS_Settings {
 
 	const DEFAULT_BASE_URL = 'https://sms.cloudxino.com/api/v1';
 
-	/** Sign up at CloudXino to get an API key and secret (with the plugin author's referral code). */
-	const REGISTER_URL = 'https://cloudxino.com/register?ref=R2SD92GZ';
+	/** Sign up at CloudXino SMS to get an API key and secret (the link carries a referral code). */
+	const REGISTER_URL = 'https://sms.cloudxino.com/login?ref=WC5VQT6L';
 
 	/**
 	 * A plain option.

@@ -1,5 +1,5 @@
-=== CX SMS for WooCommerce ===
-Contributors: salimsrj
+=== CloudXino SMS for WooCommerce ===
+Contributors: cloudxino, salimsrj
 Tags: woocommerce, sms, order notification, bangladesh, cloudxino
 Requires at least: 6.2
 Tested up to: 7.1
@@ -35,7 +35,7 @@ CloudXino Privacy Policy: https://cloudxino.com/privacy
 == Installation ==
 
 1. Upload the plugin and activate it.
-2. If you don't have a CloudXino account yet, register at https://cloudxino.com/register?ref=R2SD92GZ (also linked from SMS › Settings). This link includes the plugin author's referral code.
+2. If you don't have a CloudXino account yet, register at https://sms.cloudxino.com/login?ref=WC5VQT6L (also linked from SMS › Settings). This link includes a referral code.
 3. Go to SMS › Settings, add your CloudXino API key and secret (from your CloudXino account › Settings), and switch SMS on.
 
 == Changelog ==
